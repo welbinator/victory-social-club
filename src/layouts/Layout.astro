@@ -5,13 +5,16 @@ export interface Props {
 }
 const { title, description = "Victory Social Club — a refined social house in Cedar Rapids for craft cocktails, chef-driven plates, and good company." } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// noindex only on the GitHub Pages staging build (which sets a non-empty base path).
+// Production (Cloudflare Pages, base === '') stays indexable.
+const isStaging = base !== '';
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex, nofollow" />
+    {isStaging && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/webp" href={`${base}/images/logo.webp`} />
     <title>{title}</title>
     <meta name="description" content={description} />
