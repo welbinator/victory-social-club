@@ -15,22 +15,32 @@ const links = [
     <nav class="links">
       {links.map((l) => <a href={l.href}>{l.label}</a>)}
     </nav>
-    <a href="#contact" class="btn nav-cta">Reserve</a>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
+        <span id="themeIcon">☀︎</span><span id="themeLabel">Light</span>
+      </button>
+      <a href="#contact" class="btn nav-cta">Reserve</a>
+    </div>
     <button class="burger" aria-label="Menu" id="burger"><span></span><span></span></button>
   </div>
   <nav class="mobile" id="mobile">
     {links.map((l) => <a href={l.href} class="m-link">{l.label}</a>)}
+    <button class="theme-toggle m-link" id="themeToggleM" aria-label="Toggle light and dark mode">
+      <span id="themeIconM">☀︎</span><span id="themeLabelM">Light mode</span>
+    </button>
     <a href="#contact" class="btn m-link">Reserve</a>
   </nav>
 </header>
 <style>
   .nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-    background: rgba(9, 9, 9, 0.82); backdrop-filter: blur(10px);
+    background: var(--nav-bg); backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
   }
   .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 0; }
+  .nav-right { display: flex; align-items: center; gap: 1.1rem; }
   .brand img { height: 46px; width: auto; }
+  html.light .brand { background: #0f0f0f; padding: 6px 12px; border-radius: var(--radius); display: inline-flex; }
   .links { display: flex; gap: 2.4rem; }
   .links a {
     font-size: 0.74rem; letter-spacing: 0.2em; text-transform: uppercase;
@@ -44,7 +54,7 @@ const links = [
   .mobile.open { display: flex; }
   .m-link { font-size: 0.82rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); }
   @media (max-width: 780px) {
-    .links, .nav-cta { display: none; }
+    .links, .nav-right { display: none; }
     .burger { display: flex; }
   }
 </style>
@@ -53,4 +63,22 @@ const links = [
   const m = document.getElementById('mobile');
   b?.addEventListener('click', () => m?.classList.toggle('open'));
   m?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => m.classList.remove('open')));
+
+  // Theme toggle (light/dark) — persists in localStorage, syncs both buttons
+  function syncThemeUI() {
+    const light = document.documentElement.classList.contains('light');
+    const icon = light ? '☾' : '☀︎';
+    const label = light ? 'Dark' : 'Light';
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('themeIcon', icon); set('themeLabel', label);
+    set('themeIconM', icon); set('themeLabelM', light ? 'Dark mode' : 'Light mode');
+  }
+  function toggleTheme() {
+    const light = document.documentElement.classList.toggle('light');
+    try { localStorage.setItem('vsc-theme', light ? 'light' : 'dark'); } catch (e) {}
+    syncThemeUI();
+  }
+  document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+  document.getElementById('themeToggleM')?.addEventListener('click', toggleTheme);
+  syncThemeUI();
 </script>

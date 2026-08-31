@@ -17,6 +17,15 @@ const isStaging = base !== '';
     {isStaging && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/webp" href={`${base}/images/logo.webp`} />
     <title>{title}</title>
+    <script is:inline>
+      // no-flash: apply saved theme before paint
+      (function () {
+        try {
+          if (localStorage.getItem('vsc-theme') === 'light')
+            document.documentElement.classList.add('light');
+        } catch (e) {}
+      })();
+    </script>
     <meta name="description" content={description} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,9 +41,20 @@ const isStaging = base !== '';
         --cream: #f2ece1;
         --cream-dim: #c8bfb1;
         --line: #3a2f26;
+        --nav-bg: rgba(9, 9, 9, 0.82);
         --font-display: "Cormorant Garamond", Georgia, serif;
         --font-body: "Jost", system-ui, sans-serif;
         --radius: 5px;
+      }
+      html.light {
+        --near-black: #faf7f2;
+        --char: #f0ebe2;
+        --panel: #e7e0d4;
+        --cream: #1c1712;
+        --cream-dim: #5f564a;
+        --line: #ddd3c4;
+        --bronze: #9a6a24;
+        --nav-bg: rgba(250, 247, 242, 0.85);
       }
       * { box-sizing: border-box; margin: 0; padding: 0; }
       html { scroll-behavior: smooth; }
@@ -73,6 +93,24 @@ const isStaging = base !== '';
         html.js .rise, .rise { opacity: 1; transform: none; transition: none; }
       }
       section { padding: clamp(4rem, 9vw, 7.5rem) 0; }
+
+      /* Hero sits over a dark photo — keep its text light in BOTH themes */
+      html.light .hero .eyebrow { color: var(--bronze); }
+      html.light .hero h1 { color: #f2ece1; }
+      html.light .hero .hero-sub { color: #d8cfc0; }
+      html.light .hero .btn { color: #f2ece1; border-color: var(--copper); }
+      html.light .hero .btn:hover { color: #fff; }
+      html.light .marquee { color: #1c1712; }
+
+      /* Theme toggle button */
+      .theme-toggle {
+        background: none; border: 1px solid var(--line); border-radius: var(--radius);
+        color: var(--cream-dim); cursor: pointer; font-family: var(--font-body);
+        font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+        padding: 0.5rem 0.85rem; display: inline-flex; align-items: center; gap: 0.4rem;
+        transition: color .25s ease, border-color .25s ease;
+      }
+      .theme-toggle:hover { color: var(--copper); border-color: var(--copper); }
     </style>
   </head>
   <body>
