@@ -1,0 +1,313 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { foodMenu, cocktails, wine } from '../data/menu.js';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Layout title="Victory Social Club — Cedar Rapids">
+  <Nav />
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg" style={`background-image:url('${base}/images/interior.webp')`}></div>
+      <div class="hero-veil"></div>
+      <div class="wrap hero-inner">
+        <span class="eyebrow rise">Cedar Rapids · Iowa</span>
+        <h1 class="rise">Where friends and<br /><em>strangers</em> unite.</h1>
+        <p class="hero-sub rise">A social house built around craft cocktails, chef-driven plates,
+          and the easy hum of good company. Come as you are — leave a regular.</p>
+        <div class="hero-cta rise">
+          <a href="#menu" class="btn btn-solid">View the Menu</a>
+          <a href="#visit" class="btn">Plan a Visit</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee">
+      <div class="marq-track">
+        <span>Craft Cocktails</span><i>◆</i><span>Dry-Aged Steaks</span><i>◆</i><span>Raw Bar</span><i>◆</i>
+        <span>Live Sports</span><i>◆</i><span>Cedar Rapids</span><i>◆</i>
+        <span>Craft Cocktails</span><i>◆</i><span>Dry-Aged Steaks</span><i>◆</i><span>Raw Bar</span><i>◆</i>
+        <span>Live Sports</span><i>◆</i><span>Cedar Rapids</span><i>◆</i>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about" class="about">
+      <div class="wrap about-grid">
+        <div class="about-copy rise">
+          <span class="eyebrow">The Club</span>
+          <h2>Not quite a bar. Not quite a restaurant.<br />Something better.</h2>
+          <hr class="rule" />
+          <p>Victory Social Club sits on First Avenue with one idea in mind: a room where the
+            cocktails are made with care, the kitchen swings from charbroiled oysters to a
+            30-day dry-aged strip, and the game is always on somewhere in view.</p>
+          <p>It's the kind of place you drop into for a quick martini at the bar and end up
+            staying through dessert. Refined, but never stiff. Everyone's welcome at the table.</p>
+          <p class="sign">— The house on 1st Ave</p>
+        </div>
+        <div class="about-facts rise">
+          <div class="fact"><span class="num">4.9</span><span class="lbl">Guest Rating</span></div>
+          <div class="fact"><span class="num">30</span><span class="lbl">Day Dry-Aged</span></div>
+          <div class="fact"><span class="num">Raw</span><span class="lbl">Oyster Bar</span></div>
+          <div class="fact"><span class="num">7</span><span class="lbl">Days a Week</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section id="menu" class="menu">
+      <div class="wrap">
+        <div class="menu-head rise">
+          <span class="eyebrow">The Menu</span>
+          <h2>From the kitchen</h2>
+          <p class="menu-note">A living menu — ask your server about tonight's specials.</p>
+        </div>
+        <div class="menu-cols">
+          {foodMenu.map((g) => (
+            <div class="menu-group rise">
+              <h3>{g.group}</h3>
+              <ul>
+                {g.items.map((it) => (
+                  <li>
+                    <div class="mi-row">
+                      <span class="mi-name">{it.name}</span>
+                      <span class="mi-dots"></span>
+                      <span class="mi-price">{it.price}</span>
+                    </div>
+                    {it.desc && <p class="mi-desc">{it.desc}</p>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div class="bar-grid">
+          <div class="menu-group rise">
+            <h3>Signature Cocktails</h3>
+            <ul>
+              {cocktails.map((c) => (
+                <li><div class="mi-row"><span class="mi-name">{c.name}</span><span class="mi-dots"></span><span class="mi-price">{c.price}</span></div></li>
+              ))}
+            </ul>
+          </div>
+          <div class="menu-group rise">
+            <h3>By the Glass & Bottle</h3>
+            <ul>
+              {wine.map((w) => (
+                <li><div class="mi-row"><span class="mi-name">{w.name}</span><span class="mi-dots"></span><span class="mi-price">{w.price}</span></div></li>
+              ))}
+            </ul>
+            <p class="mi-desc" style="margin-top:1.4rem">Full beer & spirits list available in-house — from Victory Lager to Grey Goose.</p>
+          </div>
+        </div>
+
+        <div class="menu-full rise">
+          <a href="https://victory-social.com/order/victory-social-club-3707-1st-avenue-southeast" target="_blank" rel="noopener" class="btn btn-solid">Order Online</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISIT -->
+    <section id="visit" class="visit">
+      <div class="wrap visit-grid">
+        <div class="visit-copy rise">
+          <span class="eyebrow">Visit</span>
+          <h2>Pull up a seat</h2>
+          <hr class="rule" />
+          <div class="visit-block">
+            <span class="vb-label">Address</span>
+            <p>3707 1st Avenue SE<br />Cedar Rapids, IA 52402</p>
+          </div>
+          <div class="visit-block">
+            <span class="vb-label">Hours</span>
+            <p>Open seven days a week · Kitchen closes 10 PM<br /><em class="hours-note">Call ahead for exact daily hours &amp; holiday changes.</em></p>
+          </div>
+          <div class="visit-block">
+            <span class="vb-label">Reservations & Inquiries</span>
+            <p><a href="tel:+13194036064">(319) 403-6064</a></p>
+          </div>
+          <div class="visit-socials">
+            <a href="https://www.instagram.com/_victorysocialclub" target="_blank" rel="noopener" class="btn">Instagram</a>
+            <a href="https://www.facebook.com/61590946788004" target="_blank" rel="noopener" class="btn">Facebook</a>
+          </div>
+        </div>
+        <div class="visit-map rise">
+          <iframe
+            title="Victory Social Club location"
+            src="https://www.google.com/maps?q=Victory+Social+Club,+3707+1st+Avenue+SE,+Cedar+Rapids,+IA+52402&output=embed"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
+      <div class="wrap contact-grid">
+        <div class="contact-copy rise">
+          <span class="eyebrow">Contact</span>
+          <h2>Reserve a table or plan an event</h2>
+          <p>Private parties, large tables, or just a question about the menu — send a note and
+            we'll get back to you shortly.</p>
+        </div>
+        <form class="contact-form rise" id="contactForm" method="POST" action="/api/contact">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" required />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+          </div>
+          <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-theme="dark"></div>
+          <button type="submit" class="btn btn-solid">Send Message</button>
+          <p class="form-status" id="formStatus"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <style>
+    /* HERO */
+    .hero { position: relative; min-height: 100svh; display: flex; align-items: center; overflow: hidden; }
+    .hero-bg {
+      position: absolute; inset: 0; background-size: cover; background-position: center;
+      transform: scale(1.05); filter: saturate(0.85) brightness(0.55);
+    }
+    .hero-veil {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(120% 90% at 50% 40%, rgba(13,11,10,0.25), rgba(13,11,10,0.9) 90%),
+        linear-gradient(180deg, rgba(13,11,10,0.7), rgba(13,11,10,0.55));
+    }
+    .hero-inner { position: relative; text-align: center; padding-top: 5rem; }
+    .hero-inner .eyebrow { display: block; margin-bottom: 1.6rem; }
+    .hero h1 {
+      font-size: clamp(3rem, 8.5vw, 6.6rem); font-weight: 500; letter-spacing: 0.005em;
+      margin-bottom: 1.6rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--bronze); }
+    .hero-sub { max-width: 44ch; margin: 0 auto 2.6rem; color: var(--cream-dim); font-size: 1.08rem; }
+    .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* MARQUEE */
+    .marquee { background: var(--copper); color: var(--near-black); overflow: hidden; padding: 0.7rem 0; }
+    .marq-track {
+      display: flex; gap: 2.2rem; white-space: nowrap; width: max-content;
+      animation: scroll 32s linear infinite;
+      font-family: var(--font-display); font-style: italic; font-size: 1.15rem;
+    }
+    .marq-track i { font-style: normal; opacity: 0.55; }
+    @keyframes scroll { to { transform: translateX(-50%); } }
+
+    /* ABOUT */
+    .about { background: var(--near-black); }
+    .about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 4rem; align-items: center; }
+    .about-copy h2 { font-size: clamp(1.9rem, 4vw, 3rem); margin: 1rem 0 1.6rem; }
+    .about-copy .rule { margin-bottom: 1.8rem; }
+    .about-copy p { color: var(--cream-dim); margin-bottom: 1.2rem; max-width: 52ch; }
+    .sign { font-family: var(--font-display); font-style: italic; color: var(--bronze); font-size: 1.1rem; }
+    .about-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .fact { background: var(--char); padding: 2rem 1.5rem; text-align: center; }
+    .fact .num { display: block; font-family: var(--font-display); font-size: 2.8rem; color: var(--bronze); line-height: 1; }
+    .fact .lbl { display: block; margin-top: 0.5rem; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); }
+
+    /* MENU */
+    .menu { background: var(--char); }
+    .menu-head { text-align: center; margin-bottom: 3.5rem; }
+    .menu-head h2 { font-size: clamp(2rem, 4.5vw, 3.2rem); margin: 0.8rem 0 0.6rem; }
+    .menu-note { color: var(--cream-dim); font-style: italic; font-family: var(--font-display); font-size: 1.15rem; }
+    .menu-cols { columns: 2; column-gap: 3.5rem; }
+    .bar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; margin-top: 1rem; }
+    .menu-group { break-inside: avoid; margin-bottom: 2.8rem; }
+    .menu-group h3 {
+      font-size: 1.5rem; color: var(--bronze); margin-bottom: 1.2rem; padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--line); letter-spacing: 0.02em;
+    }
+    .menu-group ul { list-style: none; }
+    .menu-group li { margin-bottom: 1rem; }
+    .mi-row { display: flex; align-items: baseline; gap: 0.5rem; }
+    .mi-name { font-family: var(--font-display); font-size: 1.2rem; color: var(--cream); }
+    .mi-dots { flex: 1; border-bottom: 1px dotted var(--line); transform: translateY(-3px); }
+    .mi-price { font-family: var(--font-display); font-size: 1.15rem; color: var(--bronze); }
+    .mi-price::before { content: '$'; font-size: 0.8em; opacity: 0.7; }
+    .mi-desc { font-size: 0.86rem; color: var(--cream-dim); margin-top: 0.2rem; max-width: 46ch; }
+    .menu-full { text-align: center; margin-top: 2rem; }
+
+    /* VISIT */
+    .visit { background: var(--near-black); }
+    .visit-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 4rem; align-items: center; }
+    .visit-copy h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin: 1rem 0 1.4rem; }
+    .visit-copy .rule { margin-bottom: 2rem; }
+    .visit-block { margin-bottom: 1.6rem; }
+    .vb-label { display: block; font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--bronze); margin-bottom: 0.35rem; }
+    .visit-block p { color: var(--cream-dim); }
+    .visit-block a { color: var(--cream); border-bottom: 1px solid var(--copper); }
+    .hours-note { font-family: var(--font-display); font-size: 0.98rem; color: var(--cream-dim); }
+    .visit-socials { display: flex; gap: 1rem; margin-top: 2rem; }
+    .visit-map { height: 420px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    .visit-map iframe { width: 100%; height: 100%; border: 0; filter: grayscale(0.4) contrast(1.1) brightness(0.85); }
+
+    /* CONTACT */
+    .contact { background: var(--char); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-copy h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin: 1rem 0 1.2rem; }
+    .contact-copy p { color: var(--cream-dim); max-width: 40ch; }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .field label { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); }
+    .field input, .field textarea {
+      background: var(--near-black); border: 1px solid var(--line); border-radius: var(--radius);
+      color: var(--cream); font-family: var(--font-body); font-size: 0.95rem; padding: 0.8rem 1rem;
+      transition: border-color .25s ease;
+    }
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--copper); }
+    .contact-form .btn { align-self: flex-start; cursor: pointer; }
+    .form-status { font-size: 0.88rem; color: var(--bronze); min-height: 1.2rem; }
+
+    @media (max-width: 860px) {
+      .about-grid, .visit-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .menu-cols { columns: 1; }
+      .bar-grid { grid-template-columns: 1fr; gap: 1rem; }
+    }
+    @media (max-width: 520px) {
+      .field-row { grid-template-columns: 1fr; }
+      .about-facts { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script>
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = 'Sending…';
+      try {
+        const data = Object.fromEntries(new FormData(form));
+        const res = await fetch(form.action, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
+        });
+        if (res.ok) { form.reset(); status.textContent = 'Thanks — we\u2019ll be in touch soon.'; }
+        else { status.textContent = 'Something went wrong. Please call (319) 403-6064.'; }
+      } catch { status.textContent = 'Something went wrong. Please call (319) 403-6064.'; }
+    });
+  </script>
+</Layout>

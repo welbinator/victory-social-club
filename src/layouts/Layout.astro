@@ -1,0 +1,87 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Victory Social Club — a refined social house in Cedar Rapids for craft cocktails, chef-driven plates, and good company." } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/webp" href={`${base}/images/logo.webp`} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+    <style is:global>
+      :root {
+        --near-black: #0d0b0a;
+        --char: #16110e;
+        --panel: #1c1613;
+        --copper: #b5652e;
+        --bronze: #dca05c;
+        --ember: #a83000;
+        --cream: #f2ece1;
+        --cream-dim: #c8bfb1;
+        --line: #3a2f26;
+        --font-display: "Cormorant Garamond", Georgia, serif;
+        --font-body: "Jost", system-ui, sans-serif;
+        --radius: 5px;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--near-black);
+        color: var(--cream);
+        font-family: var(--font-body);
+        font-weight: 300;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; line-height: 1.1; letter-spacing: 0.01em; }
+      a { color: inherit; text-decoration: none; }
+      img { display: block; max-width: 100%; }
+      .wrap { width: min(1120px, 92vw); margin: 0 auto; }
+      .eyebrow {
+        font-family: var(--font-body); font-size: 0.72rem; font-weight: 400;
+        letter-spacing: 0.32em; text-transform: uppercase; color: var(--bronze);
+      }
+      .btn {
+        display: inline-block; font-family: var(--font-body); font-size: 0.78rem;
+        letter-spacing: 0.22em; text-transform: uppercase; padding: 0.95rem 2rem;
+        border: 1px solid var(--copper); color: var(--cream); border-radius: var(--radius);
+        transition: background .3s ease, color .3s ease;
+      }
+      .btn:hover { background: var(--copper); color: var(--near-black); }
+      .btn-solid { background: var(--copper); color: var(--near-black); border-color: var(--copper); }
+      .btn-solid:hover { background: var(--bronze); border-color: var(--bronze); }
+      .rule { width: 54px; height: 1px; background: var(--copper); border: 0; }
+      /* scroll reveal — fails OPEN */
+      .rise { transition: opacity .8s ease, transform .8s ease; }
+      html.js .rise { opacity: 0; transform: translateY(20px); }
+      html.js .rise.in { opacity: 1; transform: none; }
+      @media (prefers-reduced-motion: reduce) {
+        html.js .rise, .rise { opacity: 1; transform: none; transition: none; }
+      }
+      section { padding: clamp(4rem, 9vw, 7.5rem) 0; }
+    </style>
+  </head>
+  <body>
+    <slot />
+    <script>
+      document.documentElement.classList.add('js');
+      const risers = [...document.querySelectorAll('.rise')];
+      const io = new IntersectionObserver((es) => es.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }), { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      risers.forEach((el) => io.observe(el));
+      setTimeout(() => risers.forEach((el) => el.classList.add('in')), 2500);
+    </script>
+  </body>
+</html>

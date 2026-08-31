@@ -1,0 +1,56 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const links = [
+  { href: '#about', label: 'The Club' },
+  { href: '#menu', label: 'Menu' },
+  { href: '#visit', label: 'Visit' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">
+      <img src={`${base}/images/logo.webp`} alt="Victory Social Club" />
+    </a>
+    <nav class="links">
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    </nav>
+    <a href="#contact" class="btn nav-cta">Reserve</a>
+    <button class="burger" aria-label="Menu" id="burger"><span></span><span></span></button>
+  </div>
+  <nav class="mobile" id="mobile">
+    {links.map((l) => <a href={l.href} class="m-link">{l.label}</a>)}
+    <a href="#contact" class="btn m-link">Reserve</a>
+  </nav>
+</header>
+<style>
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    background: rgba(13, 11, 10, 0.82); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 0; }
+  .brand img { height: 46px; width: auto; }
+  .links { display: flex; gap: 2.4rem; }
+  .links a {
+    font-size: 0.74rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cream-dim); transition: color .25s ease;
+  }
+  .links a:hover { color: var(--bronze); }
+  .nav-cta { padding: 0.6rem 1.4rem; }
+  .burger { display: none; background: none; border: 0; cursor: pointer; flex-direction: column; gap: 5px; }
+  .burger span { width: 26px; height: 1.5px; background: var(--cream); display: block; }
+  .mobile { display: none; flex-direction: column; padding: 0 4vw 1.2rem; gap: 1rem; }
+  .mobile.open { display: flex; }
+  .m-link { font-size: 0.82rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); }
+  @media (max-width: 780px) {
+    .links, .nav-cta { display: none; }
+    .burger { display: flex; }
+  }
+</style>
+<script>
+  const b = document.getElementById('burger');
+  const m = document.getElementById('mobile');
+  b?.addEventListener('click', () => m?.classList.toggle('open'));
+  m?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => m.classList.remove('open')));
+</script>
