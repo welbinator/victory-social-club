@@ -26,8 +26,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </section>
 
     <!-- MARQUEE -->
-    <div class="marquee" aria-label="Victory Social Club highlights">
-      <div class="marq-track">
+    <div class="marquee">
+      <div class="marq-track" id="marqTrack">
         <span>Craft Cocktails</span><i>◆</i><span>Dry-Aged Steaks</span><i>◆</i><span>Raw Bar</span><i>◆</i><span>Live Sports</span><i>◆</i><span>Cedar Rapids</span><i>◆</i>
       </div>
     </div>
@@ -204,12 +204,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
     /* MARQUEE */
-    .marquee { background: var(--copper); color: var(--near-black); overflow: hidden; padding: 0.7rem 0; display: flex; }
+    .marquee { background: var(--copper); color: var(--near-black); overflow: hidden; padding: 0.7rem 0; }
     .marq-track {
-      display: flex; gap: 2.2rem; flex-shrink: 0; white-space: nowrap;
+      display: flex; flex-shrink: 0; width: max-content; align-items: center; white-space: nowrap;
+      animation: marq-scroll 28s linear infinite;
       font-family: var(--font-display); font-style: italic; font-size: 1.15rem;
     }
+    .marquee:hover .marq-track { animation-play-state: paused; }
+    .marq-track span { padding: 0 1.1rem; }
     .marq-track i { font-style: normal; opacity: 0.55; }
+    @keyframes marq-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
     /* ABOUT */
     .about { background: var(--near-black); }
