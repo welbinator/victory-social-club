@@ -26,12 +26,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </section>
 
     <!-- MARQUEE -->
-    <div class="marquee">
-      <div class="marq-track">
-        <span>Craft Cocktails</span><i>◆</i><span>Dry-Aged Steaks</span><i>◆</i><span>Raw Bar</span><i>◆</i>
-        <span>Live Sports</span><i>◆</i><span>Cedar Rapids</span><i>◆</i>
-        <span>Craft Cocktails</span><i>◆</i><span>Dry-Aged Steaks</span><i>◆</i><span>Raw Bar</span><i>◆</i>
-        <span>Live Sports</span><i>◆</i><span>Cedar Rapids</span><i>◆</i>
+    <div class="marquee" aria-hidden="true">
+      <div class="marq-inner">
+        <div class="marq-track">
+          <span>Craft Cocktails</span><i>◆</i><span>Dry-Aged Steaks</span><i>◆</i><span>Raw Bar</span><i>◆</i>
+          <span>Live Sports</span><i>◆</i><span>Cedar Rapids</span><i>◆</i>
+        </div>
+        <div class="marq-track">
+          <span>Craft Cocktails</span><i>◆</i><span>Dry-Aged Steaks</span><i>◆</i><span>Raw Bar</span><i>◆</i>
+          <span>Live Sports</span><i>◆</i><span>Cedar Rapids</span><i>◆</i>
+        </div>
       </div>
     </div>
 
@@ -208,13 +212,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
     /* MARQUEE */
     .marquee { background: var(--copper); color: var(--near-black); overflow: hidden; padding: 0.7rem 0; }
+    .marq-inner { display: flex; width: max-content; }
     .marq-track {
-      display: flex; gap: 2.2rem; white-space: nowrap; width: max-content;
+      display: flex; gap: 2.2rem; flex-shrink: 0; white-space: nowrap;
       animation: marquee-scroll 28s linear infinite;
       font-family: var(--font-display); font-style: italic; font-size: 1.15rem;
+      padding-right: 2.2rem; /* match gap so loop point is gapless */
     }
+    .marq-track:nth-child(2) { animation-delay: -14s; }
     .marq-track i { font-style: normal; opacity: 0.55; }
-    @keyframes marquee-scroll { to { transform: translateX(-50%); } }
+    @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 
     /* ABOUT */
     .about { background: var(--near-black); }
