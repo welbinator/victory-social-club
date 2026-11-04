@@ -157,6 +157,30 @@ const isStaging = base !== '';
         }, { passive: true });
       }
 
+      // Marquee: measure actual px width, clone, animate both tracks
+      (function initMarquee() {
+        const track = document.querySelector('.marq-track');
+        if (!track) return;
+        // Give browser a frame to render so scrollWidth is accurate
+        requestAnimationFrame(() => {
+          const w = track.scrollWidth;
+          const speed = 60; // px per second
+          const dur = w / speed;
+          // Clone and append
+          const clone = track.cloneNode(true);
+          clone.setAttribute('aria-hidden', 'true');
+          track.parentNode.appendChild(clone);
+          // Inject precise keyframe
+          const kf = document.createElement('style');
+          kf.textContent = `@keyframes marq { from { transform: translateX(0); } to { transform: translateX(-${w}px); } }`;
+          document.head.appendChild(kf);
+          // Apply animation — clone starts halfway through so they interleave
+          track.style.animation = `marq ${dur}s linear infinite`;
+          clone.style.animation = `marq ${dur}s linear infinite`;
+          clone.style.animationDelay = `-${dur / 2}s`;
+        });
+      })();
+
       // Count-up for .fact .num elements that are purely numeric
       const facts = [...document.querySelectorAll('.fact .num')];
       const countIo = new IntersectionObserver((es) => es.forEach((e) => {
