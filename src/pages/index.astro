@@ -49,7 +49,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             staying through dessert. Refined, but never stiff. Everyone's welcome at the table.</p>
           <p class="sign">— The house on 1st Ave</p>
         </div>
-        <div class="about-facts rise">
+        <div class="about-facts rise rise-group">
           <div class="fact"><span class="num">4.9</span><span class="lbl">Guest Rating</span></div>
           <div class="fact"><span class="num">30</span><span class="lbl">Day Dry-Aged</span></div>
           <div class="fact"><span class="num">Raw</span><span class="lbl">Oyster Bar</span></div>
@@ -66,7 +66,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           <h2>From the kitchen</h2>
           <p class="menu-note">A living menu — ask your server about tonight's specials.</p>
         </div>
-        <div class="menu-cols">
+        <div class="menu-cols rise-group">
           {foodMenu.map((g) => (
             <div class="menu-group rise">
               <h3>{g.group}</h3>
@@ -86,7 +86,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           ))}
         </div>
 
-        <div class="bar-grid">
+        <div class="bar-grid rise-group">
           <div class="menu-group rise">
             <h3>Signature Cocktails</h3>
             <ul>
@@ -210,11 +210,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     .marquee { background: var(--copper); color: var(--near-black); overflow: hidden; padding: 0.7rem 0; }
     .marq-track {
       display: flex; gap: 2.2rem; white-space: nowrap; width: max-content;
-      animation: scroll 32s linear infinite;
+      will-change: transform;
       font-family: var(--font-display); font-style: italic; font-size: 1.15rem;
     }
     .marq-track i { font-style: normal; opacity: 0.55; }
-    @keyframes scroll { to { transform: translateX(-50%); } }
 
     /* ABOUT */
     .about { background: var(--near-black); }

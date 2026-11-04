@@ -86,13 +86,37 @@ const isStaging = base !== '';
       .btn-solid:hover { background: var(--bronze); border-color: var(--bronze); color: #fff; }
       .rule { width: 54px; height: 1px; background: var(--copper); border: 0; }
       /* scroll reveal — fails OPEN */
-      .rise { transition: opacity .8s ease, transform .8s ease; }
-      html.js .rise { opacity: 0; transform: translateY(20px); }
+      .rise {
+        transition: opacity .75s cubic-bezier(.22,.61,.36,1), transform .75s cubic-bezier(.22,.61,.36,1);
+        transition-delay: var(--rise-delay, 0ms);
+      }
+      html.js .rise { opacity: 0; transform: translateY(28px); }
       html.js .rise.in { opacity: 1; transform: none; }
+      /* stagger siblings automatically */
+      html.js .rise-group > .rise:nth-child(1) { --rise-delay: 0ms; }
+      html.js .rise-group > .rise:nth-child(2) { --rise-delay: 100ms; }
+      html.js .rise-group > .rise:nth-child(3) { --rise-delay: 200ms; }
+      html.js .rise-group > .rise:nth-child(4) { --rise-delay: 300ms; }
+      html.js .rise-group > .rise:nth-child(5) { --rise-delay: 400ms; }
+      html.js .rise-group > .rise:nth-child(6) { --rise-delay: 500ms; }
       @media (prefers-reduced-motion: reduce) {
         html.js .rise, .rise { opacity: 1; transform: none; transition: none; }
       }
       section { padding: clamp(4rem, 9vw, 7.5rem) 0; }
+
+      /* Hero parallax */
+      .hero-bg { will-change: transform; }
+      /* Copper rule shimmer */
+      @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+      .rule {
+        width: 54px; height: 1px; border: 0;
+        background: linear-gradient(90deg, var(--copper) 30%, var(--bronze) 50%, var(--copper) 70%);
+        background-size: 200% 100%;
+        animation: shimmer 3.5s ease-in-out infinite;
+      }
 
       /* Hero sits over a dark photo — keep its text light in BOTH themes */
       html.light .hero .eyebrow { color: var(--bronze); }
@@ -120,9 +144,80 @@ const isStaging = base !== '';
       const risers = [...document.querySelectorAll('.rise')];
       const io = new IntersectionObserver((es) => es.forEach((e) => {
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-      }), { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      }), { rootMargin: '0px 0px -6% 0px', threshold: 0.07 });
       risers.forEach((el) => io.observe(el));
       setTimeout(() => risers.forEach((el) => el.classList.add('in')), 2500);
+
+      // Hero parallax
+      const heroBg = document.querySelector('.hero-bg');
+      if (heroBg && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.addEventListener('scroll', () => {
+          const y = window.scrollY;
+          heroBg.style.transform = `translateY(${y * 0.28}px)`;
+        }, { passive: true });
+      }
+
+      // Marquee: clone the track so it loops seamlessly regardless of item count
+      const track = document.querySelector('.marq-track');
+      if (track) {
+        const clone = track.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        track.parentNode.appendChild(clone);
+        // Fix animation: each track scrolls its own full width
+        const totalWidth = track.scrollWidth;
+        const dur = Math.max(20, totalWidth / 60) + 's';
+        [track, clone].forEach((t, i) => {
+          t.style.animation = 'none';
+          t.style.transform = i === 0 ? 'translateX(0)' : 'translateX(100%)';
+        });
+        // Use a JS-driven loop for pixel-perfect seamless scroll
+        let x = 0;
+        const speed = 0.6; // px per frame
+        function step() {
+          x -= speed;
+          if (Math.abs(x) >= totalWidth) x = 0;
+          track.style.transform = `translateX(${x}px)`;
+          clone.style.transform = `translateX(${x + totalWidth}px)`;
+          requestAnimationFrame(step);
+        }
+        // Pause on hover
+        track.parentNode.addEventListener('mouseenter', () => { track.parentNode._paused = true; });
+        track.parentNode.addEventListener('mouseleave', () => { track.parentNode._paused = false; });
+        function stepPausable() {
+          if (!track.parentNode._paused) {
+            x -= speed;
+            if (Math.abs(x) >= totalWidth) x = 0;
+            track.style.transform = `translateX(${x}px)`;
+            clone.style.transform = `translateX(${x + totalWidth}px)`;
+          }
+          requestAnimationFrame(stepPausable);
+        }
+        requestAnimationFrame(stepPausable);
+      }
+
+      // Count-up for .fact .num elements that are purely numeric
+      const facts = [...document.querySelectorAll('.fact .num')];
+      const countIo = new IntersectionObserver((es) => es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        countIo.unobserve(e.target);
+        const el = e.target;
+        const raw = el.textContent.trim();
+        const num = parseFloat(raw);
+        if (isNaN(num)) return;
+        const isDecimal = raw.includes('.');
+        const dur = 1400;
+        const start = performance.now();
+        function tick(now) {
+          const t = Math.min((now - start) / dur, 1);
+          const ease = 1 - Math.pow(1 - t, 3);
+          const val = num * ease;
+          el.textContent = isDecimal ? val.toFixed(1) : Math.round(val).toString();
+          if (t < 1) requestAnimationFrame(tick);
+          else el.textContent = raw;
+        }
+        requestAnimationFrame(tick);
+      }), { threshold: 0.5 });
+      facts.forEach((el) => countIo.observe(el));
     </script>
   </body>
 </html>
