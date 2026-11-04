@@ -157,44 +157,6 @@ const isStaging = base !== '';
         }, { passive: true });
       }
 
-      // Marquee: clone the track so it loops seamlessly regardless of item count
-      const track = document.querySelector('.marq-track');
-      if (track) {
-        const clone = track.cloneNode(true);
-        clone.setAttribute('aria-hidden', 'true');
-        track.parentNode.appendChild(clone);
-        // Fix animation: each track scrolls its own full width
-        const totalWidth = track.scrollWidth;
-        const dur = Math.max(20, totalWidth / 60) + 's';
-        [track, clone].forEach((t, i) => {
-          t.style.animation = 'none';
-          t.style.transform = i === 0 ? 'translateX(0)' : 'translateX(100%)';
-        });
-        // Use a JS-driven loop for pixel-perfect seamless scroll
-        let x = 0;
-        const speed = 0.6; // px per frame
-        function step() {
-          x -= speed;
-          if (Math.abs(x) >= totalWidth) x = 0;
-          track.style.transform = `translateX(${x}px)`;
-          clone.style.transform = `translateX(${x + totalWidth}px)`;
-          requestAnimationFrame(step);
-        }
-        // Pause on hover
-        track.parentNode.addEventListener('mouseenter', () => { track.parentNode._paused = true; });
-        track.parentNode.addEventListener('mouseleave', () => { track.parentNode._paused = false; });
-        function stepPausable() {
-          if (!track.parentNode._paused) {
-            x -= speed;
-            if (Math.abs(x) >= totalWidth) x = 0;
-            track.style.transform = `translateX(${x}px)`;
-            clone.style.transform = `translateX(${x + totalWidth}px)`;
-          }
-          requestAnimationFrame(stepPausable);
-        }
-        requestAnimationFrame(stepPausable);
-      }
-
       // Count-up for .fact .num elements that are purely numeric
       const facts = [...document.querySelectorAll('.fact .num')];
       const countIo = new IntersectionObserver((es) => es.forEach((e) => {

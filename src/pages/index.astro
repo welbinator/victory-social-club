@@ -210,10 +210,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     .marquee { background: var(--copper); color: var(--near-black); overflow: hidden; padding: 0.7rem 0; }
     .marq-track {
       display: flex; gap: 2.2rem; white-space: nowrap; width: max-content;
-      will-change: transform;
+      animation: marquee-scroll 28s linear infinite;
       font-family: var(--font-display); font-style: italic; font-size: 1.15rem;
     }
     .marq-track i { font-style: normal; opacity: 0.55; }
+    @keyframes marquee-scroll { to { transform: translateX(-50%); } }
 
     /* ABOUT */
     .about { background: var(--near-black); }
