@@ -177,7 +177,6 @@ const isStaging = base !== '';
           // Apply animation — clone starts halfway through so they interleave
           track.style.animation = `marq ${dur}s linear infinite`;
           clone.style.animation = `marq ${dur}s linear infinite`;
-          clone.style.animationDelay = `-${dur / 2}s`;
         });
       })();
 
