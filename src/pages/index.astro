@@ -206,14 +206,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     /* MARQUEE */
     .marquee { background: var(--copper); color: var(--near-black); overflow: hidden; padding: 0.7rem 0; }
     .marq-track {
-      display: flex; flex-shrink: 0; width: max-content; align-items: center; white-space: nowrap;
+      display: flex; gap: 2.2rem; padding-left: 2.2rem;
+      width: max-content; white-space: nowrap; align-items: center;
       animation: marq-scroll 28s linear infinite;
       font-family: var(--font-display); font-style: italic; font-size: 1.15rem;
     }
     .marquee:hover .marq-track { animation-play-state: paused; }
-    .marq-track span { padding: 0 1.1rem; }
     .marq-track i { font-style: normal; opacity: 0.55; }
-    @keyframes marq-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes marq-scroll { to { transform: translateX(-50%); } }
 
     /* ABOUT */
     .about { background: var(--near-black); }
